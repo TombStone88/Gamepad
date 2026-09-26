@@ -38,13 +38,21 @@ public class JoystickView extends View {
         init();
     }
 
+    private Paint borderPaint;
+
     private void init() {
         basePaint = new Paint();
-        basePaint.setColor(Color.parseColor("#33FFFFFF"));
+        basePaint.setColor(Color.parseColor("#55202020"));
         basePaint.setAntiAlias(true);
 
+        borderPaint = new Paint();
+        borderPaint.setColor(Color.parseColor("#55FFFFFF"));
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(3f);
+        borderPaint.setAntiAlias(true);
+
         knobPaint = new Paint();
-        knobPaint.setColor(Color.parseColor("#CCFFFFFF"));
+        knobPaint.setColor(Color.parseColor("#DDFFFFFF"));
         knobPaint.setAntiAlias(true);
     }
 
@@ -67,12 +75,13 @@ public class JoystickView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(centerX, centerY, baseRadius, basePaint);
+        canvas.drawCircle(centerX, centerY, baseRadius - 1.5f, borderPaint);
         canvas.drawCircle(knobX, knobY, knobRadius, knobPaint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 handleTouch(event.getX(), event.getY());

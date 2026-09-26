@@ -36,13 +36,21 @@ public class TriggerSliderView extends View {
         init();
     }
 
+    private Paint borderPaint;
+
     private void init() {
         bgPaint = new Paint();
-        bgPaint.setColor(Color.parseColor("#33FFFFFF"));
+        bgPaint.setColor(Color.parseColor("#55202020"));
         bgPaint.setAntiAlias(true);
 
+        borderPaint = new Paint();
+        borderPaint.setColor(Color.parseColor("#55FFFFFF"));
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(2.5f);
+        borderPaint.setAntiAlias(true);
+
         fillPaint = new Paint();
-        fillPaint.setColor(Color.parseColor("#CCFFFFFF"));
+        fillPaint.setColor(Color.parseColor("#BBFFFFFF"));
         fillPaint.setAntiAlias(true);
     }
 
@@ -55,14 +63,18 @@ public class TriggerSliderView extends View {
         super.onDraw(canvas);
         int w = getWidth();
         int h = getHeight();
-        canvas.drawRoundRect(0, 0, w, h, 20, 20, bgPaint);
+        float r = 20;
+        canvas.drawRoundRect(0, 0, w, h, r, r, bgPaint);
         float fillTop = h * (1 - value);
-        canvas.drawRoundRect(0, fillTop, w, h, 20, 20, fillPaint);
+        if (value > 0) {
+            canvas.drawRoundRect(0, fillTop, w, h, r, r, fillPaint);
+        }
+        canvas.drawRoundRect(1.25f, 1.25f, w - 1.25f, h - 1.25f, r, r, borderPaint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 float h = getHeight();

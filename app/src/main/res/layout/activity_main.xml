@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
@@ -13,126 +12,146 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
+        <!-- LEFT STICK — large comfortable joystick, left-mid area -->
         <com.tombstone.wirelessgamepad.JoystickView
             android:id="@+id/leftStick"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
 
+        <!-- RIGHT STICK — large comfortable joystick, right-mid area -->
         <com.tombstone.wirelessgamepad.JoystickView
             android:id="@+id/rightStick"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
 
+        <!-- LT — tall trigger slider, top-left -->
         <com.tombstone.wirelessgamepad.TriggerSliderView
             android:id="@+id/ltSlider"
-            android:layout_width="60dp"
-            android:layout_height="90dp" />
+            android:layout_width="72dp"
+            android:layout_height="56dp" />
 
+        <!-- RT — tall trigger slider, top-right -->
         <com.tombstone.wirelessgamepad.TriggerSliderView
             android:id="@+id/rtSlider"
-            android:layout_width="60dp"
-            android:layout_height="90dp" />
+            android:layout_width="72dp"
+            android:layout_height="56dp" />
 
+        <!-- LB — shoulder button, top-left below LT -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/lbBtn"
-            android:layout_width="90dp"
-            android:layout_height="44dp"
-            android:background="@drawable/pill_button_bg"
+            android:layout_width="88dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shoulder_button_bg"
             android:text="LB"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
 
+        <!-- RB — shoulder button, top-right below RT -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/rbBtn"
-            android:layout_width="90dp"
-            android:layout_height="44dp"
-            android:background="@drawable/pill_button_bg"
+            android:layout_width="88dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shoulder_button_bg"
             android:text="RB"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
 
-        <!-- L3 / R3: styled as small round icon buttons -->
+        <!-- L3 — small round button, bottom-left -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/l3Btn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_button_bg"
             android:text="🏃"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
+        <!-- R3 — small round button, bottom-right -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/r3Btn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_button_bg"
             android:text="🎯"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
-        <!-- Select / Home / Menu trio, top center -->
+        <!-- SELECT — small pill, top-center-left -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backBtn"
-            android:layout_width="70dp"
-            android:layout_height="36dp"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
             android:background="@drawable/pill_button_bg"
-            android:text="Select"
+            android:text="SELECT"
             android:textAllCaps="false"
-            android:textColor="#CCCCCC"
-            android:textSize="11sp" />
+            android:textColor="#AAAAAA"
+            android:textSize="9sp"
+            android:letterSpacing="0.05" />
 
+        <!-- HOME — circle button, top-center -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/homeBtn"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@drawable/circle_button_bg"
             android:text="⌂"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
+        <!-- START — small pill, top-center-right -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/startBtn"
-            android:layout_width="70dp"
-            android:layout_height="36dp"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
             android:background="@drawable/pill_button_bg"
-            android:text="☰ Start"
+            android:text="START"
             android:textAllCaps="false"
-            android:textColor="#CCCCCC"
-            android:textSize="11sp" />
+            android:textColor="#AAAAAA"
+            android:textSize="9sp"
+            android:letterSpacing="0.05" />
 
-        <!-- D-pad: diamond arrangement, whole group drags as one unit -->
+        <!-- D-PAD group — cross arrangement of 4 buttons -->
         <RelativeLayout
             android:id="@+id/dpad"
-            android:layout_width="160dp"
-            android:layout_height="160dp">
+            android:layout_width="156dp"
+            android:layout_height="156dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/dUp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/pill_button_bg"
                 android:text="▲"
-                android:textColor="#FFFFFF" />
+                android:textColor="#CCCCCC"
+                android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/dDown"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
                 android:background="@drawable/pill_button_bg"
                 android:text="▼"
-                android:textColor="#FFFFFF" />
+                android:textColor="#CCCCCC"
+                android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/dLeft"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/pill_button_bg"
                 android:text="◀"
-                android:textColor="#FFFFFF" />
+                android:textColor="#CCCCCC"
+                android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/dRight"
@@ -142,60 +161,67 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/pill_button_bg"
                 android:text="▶"
-                android:textColor="#FFFFFF" />
+                android:textColor="#CCCCCC"
+                android:textSize="16sp" />
         </RelativeLayout>
 
-        <!-- ABXY: colored circles, whole group drags as one unit -->
+        <!-- ABXY group — diamond arrangement -->
         <RelativeLayout
             android:id="@+id/abxy"
-            android:layout_width="150dp"
-            android:layout_height="150dp">
+            android:layout_width="156dp"
+            android:layout_height="156dp">
 
+            <!-- Y — top center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnY"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/circle_button_bg"
-                android:backgroundTint="#664D3B00"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/btn_y_bg"
                 android:text="Y"
                 android:textColor="#FFC107"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
+            <!-- A — bottom center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnA"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/circle_button_bg"
-                android:backgroundTint="#661B3B1B"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/btn_a_bg"
                 android:text="A"
                 android:textColor="#4CAF50"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
+            <!-- X — left center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnX"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/circle_button_bg"
-                android:backgroundTint="#661B2A3B"
+                android:background="@drawable/btn_x_bg"
                 android:text="X"
                 android:textColor="#2196F3"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
+            <!-- B — right center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnB"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/circle_button_bg"
-                android:backgroundTint="#663B1B1B"
+                android:background="@drawable/btn_b_bg"
                 android:text="B"
                 android:textColor="#F44336"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15sp" />
         </RelativeLayout>
 
     </FrameLayout>
@@ -225,7 +251,8 @@
             android:gravity="center"
             android:hint="PC IP e.g. 192.168.137.1"
             android:inputType="text"
-            android:singleLine="true"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
             android:textColor="#FFFFFF"
             android:textColorHint="#888888" />
 
