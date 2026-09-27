@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private UdpGamepadClient client;
     private RumbleListener rumbleListener;
     private PositionStore positionStore;
+    private SettingsStore settingsStore;
     private Vibrator vibrator;
 
     private float density;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 .density;
 
         positionStore = new PositionStore(this);
+        settingsStore = new SettingsStore(this);
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
@@ -329,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showConnectScreen() {
         if (connectScreen != null) connectScreen.setVisibility(View.VISIBLE);
-        if (gamepadRoot   != null) gamepadRoot.setVisibility(View.GONE);
+        if (gamepadRoot   != null) gamepadRoot.setVisibility(View.INVISIBLE);
     }
 
     private void showGamepadScreen() {
@@ -347,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Gamepad Menu")
                 .setItems(
-                        new CharSequence[]{editLabel, "Reset layout", "Disconnect", "Cancel"},
+                        new CharSequence[]{editLabel, "Reset layout", "Settings", "Disconnect", "Cancel"},
                         (dialog, which) -> {
                             switch (which) {
                                 case 0:
@@ -358,6 +360,9 @@ public class MainActivity extends AppCompatActivity {
                                     resetLayout();
                                     break;
                                 case 2:
+                                    showSettingsMenu();
+                                    break;
+                                case 3:
                                     disconnect();
                                     break;
                                 default:
@@ -369,7 +374,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateEditMode() {
-        // Visual indicator for edit mode can be added here.
+        Button homeBtn = findViewById(R.id.homeBtn);
+        if (homeBtn != null) {
+            homeBtn.setText(editMode ? "✓" : "⌂");
+        }
+    }
+
+    private void showSettingsMenu() {
+        boolean hard = settingsStore.isHardTriggers();
+        new AlertDialog.Builder(this)
+                .setTitle("Trigger style")
+                .setSingleChoiceItems(
+                        new CharSequence[]{"Pressure-sensitive (drag)", "Hard button (on/off)"},
+                        hard ? 1 : 0,
+                        (dialog, which) -> {
+                            boolean newHard = (which == 1);
+                            settingsStore.setHardTriggers(newHard);
+                            applyTriggerMode(newHard);
+                            dialog.dismiss();
+                        })
+                .setNegativeButton("Close", null)
+                .show();
+    }
+
+    private void applyTriggerMode(boolean hard) {
+        TriggerSliderView lt = findViewById(R.id.ltSlider);
+        TriggerSliderView rt = findViewById(R.id.rtSlider);
+        if (lt != null) lt.setHardMode(hard);
+        if (rt != null) rt.setHardMode(hard);
     }
 
     // ----------------------------------------------------------------
@@ -472,6 +504,8 @@ public class MainActivity extends AppCompatActivity {
             makeDraggable(rtSlider, "rtSlider");
         }
 
+        applyTriggerMode(settingsStore.isHardTriggers());
+
         // ABXY buttons (inside group — no individual dragging)
         bindButton(R.id.btnA, v -> state.a = v);
         bindButton(R.id.btnB, v -> state.b = v);
@@ -492,16 +526,23 @@ public class MainActivity extends AppCompatActivity {
         bindDraggableButton(R.id.startBtn, "startBtn", v -> state.start = v);
         bindDraggableButton(R.id.backBtn,  "backBtn",  v -> state.back  = v);
 
-        // Home button — opens menu; also draggable in edit mode
+        // Home button — intentionally NEVER draggable, so there is always a
+        // guaranteed way back out of edit mode no matter what else is going on.
         Button homeBtn = findViewById(R.id.homeBtn);
         if (homeBtn != null) {
-            homeBtn.setOnTouchListener((v, event) -> {
+            homeBtn.setOnClickListener(v -> {
                 if (editMode) {
-                    return handleDrag(v, event, "homeBtn");
+                    editMode = false;
+                    updateEditMode();
+                } else {
+                    showHomeMenu();
                 }
-                return false;
             });
-            homeBtn.setOnClickListener(v -> showHomeMenu());
+        }
+
+        Button settingsBtn = findViewById(R.id.settingsBtn);
+        if (settingsBtn != null) {
+            settingsBtn.setOnClickListener(v -> showSettingsMenu());
         }
     }
 

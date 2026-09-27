@@ -125,6 +125,30 @@ public class UdpGamepadClient {
                 socket = new DatagramSocket();
                 socket.setReuseAddress(true);
 
+                /*
+                 * Real reachability check: send HELLO and wait briefly for an
+                 * ACK from gamepad_receiver.py. Without this, sending to ANY
+                 * syntactically valid IP would appear to "succeed" even if
+                 * nothing is listening there.
+                 */
+                byte[] hello = "HELLO".getBytes(StandardCharsets.UTF_8);
+                socket.send(new DatagramPacket(hello, hello.length, address, PORT));
+
+                socket.setSoTimeout(2000);
+                try {
+                    byte[] ackBuf = new byte[16];
+                    DatagramPacket ackPacket = new DatagramPacket(ackBuf, ackBuf.length);
+                    socket.receive(ackPacket);
+                    String reply = new String(ackPacket.getData(), 0, ackPacket.getLength(), StandardCharsets.UTF_8);
+                    if (!"ACK".equals(reply)) {
+                        throw new IOException("Unexpected response from " + ip);
+                    }
+                } catch (java.net.SocketTimeoutException timeout) {
+                    throw new IOException("No response from " + ip
+                            + ". Check the IP and make sure gamepad_receiver.py is running.");
+                }
+                socket.setSoTimeout(0); // handshake done — back to non-blocking sends only
+
                 byte[] initialData = state
                         .toPacket()
                         .getBytes(StandardCharsets.UTF_8);
@@ -136,12 +160,6 @@ public class UdpGamepadClient {
                         PORT
                 );
 
-                /*
-                 * UDP has no real handshake. We consider the client "connected" once:
-                 *  1. The IP was resolved
-                 *  2. The socket was created
-                 *  3. The first packet was successfully handed to the OS network stack
-                 */
                 socket.send(packet);
 
                 notifyConnected();

@@ -22,6 +22,17 @@ public class TriggerSliderView extends View {
     private Paint fillPaint;
     private float value = 0f;
     private Listener listener;
+    private boolean hardMode = false;
+
+    /** True = act as a simple on/off button. False = pressure-sensitive drag. */
+    public void setHardMode(boolean hard) {
+        this.hardMode = hard;
+        if (value != 0f) {
+            value = 0f;
+            notifyListener();
+            invalidate();
+        }
+    }
 
     public TriggerSliderView(Context context) {
         this(context, null);
@@ -77,9 +88,13 @@ public class TriggerSliderView extends View {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                float h = getHeight();
-                float y = Math.max(0, Math.min(h, event.getY()));
-                value = 1f - (y / h);
+                if (hardMode) {
+                    value = 1f;
+                } else {
+                    float h = getHeight();
+                    float y = Math.max(0, Math.min(h, event.getY()));
+                    value = 1f - (y / h);
+                }
                 notifyListener();
                 invalidate();
                 return true;
