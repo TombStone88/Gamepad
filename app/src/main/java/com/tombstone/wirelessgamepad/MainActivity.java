@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean editMode = false;
 
+    private View homeScreen;
     private View connectScreen;
     private View gamepadRoot;
     private TextView statusText;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         rumbleListener = new RumbleListener();
 
+        homeScreen    = findViewById(R.id.homeScreen);
         connectScreen = findViewById(R.id.connectScreen);
         gamepadRoot   = findViewById(R.id.gamepadRoot);
 
@@ -95,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
         setupClientListener();
         setupControls();
-        showConnectScreen();
+        setupHomeScreen();
+        setupFindPc();
+        showHomeScreen();
 
         if (connectBtn != null) {
             connectBtn.setOnClickListener(v -> {
@@ -329,14 +333,87 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showHomeScreen() {
+        if (homeScreen    != null) homeScreen.setVisibility(View.VISIBLE);
+        if (connectScreen != null) connectScreen.setVisibility(View.GONE);
+        // INVISIBLE, not GONE — GONE views get 0 width/height, which breaks
+        // buildDefaultPositions()'s calculations (every button collapses to 0,0).
+        if (gamepadRoot   != null) gamepadRoot.setVisibility(View.INVISIBLE);
+    }
+
     private void showConnectScreen() {
+        if (homeScreen    != null) homeScreen.setVisibility(View.GONE);
         if (connectScreen != null) connectScreen.setVisibility(View.VISIBLE);
         if (gamepadRoot   != null) gamepadRoot.setVisibility(View.INVISIBLE);
     }
 
     private void showGamepadScreen() {
+        if (homeScreen    != null) homeScreen.setVisibility(View.GONE);
         if (connectScreen != null) connectScreen.setVisibility(View.GONE);
         if (gamepadRoot   != null) gamepadRoot.setVisibility(View.VISIBLE);
+    }
+
+    private void setupHomeScreen() {
+        Button homeConnectBtn = findViewById(R.id.homeConnectBtn);
+        Button homeGamepadBtn = findViewById(R.id.homeGamepadBtn);
+        Button homeSettingsBtn = findViewById(R.id.homeSettingsBtn);
+        Button connectHomeBtn = findViewById(R.id.connectHomeBtn);
+
+        if (homeConnectBtn != null) {
+            homeConnectBtn.setOnClickListener(v -> showConnectScreen());
+        }
+        if (homeGamepadBtn != null) {
+            homeGamepadBtn.setOnClickListener(v -> {
+                if (client != null && client.isRunning()) {
+                    showGamepadScreen();
+                } else {
+                    android.widget.Toast.makeText(this,
+                            "Connect to your PC first", android.widget.Toast.LENGTH_SHORT).show();
+                    showConnectScreen();
+                }
+            });
+        }
+        if (homeSettingsBtn != null) {
+            homeSettingsBtn.setOnClickListener(v -> showSettingsMenu());
+        }
+        if (connectHomeBtn != null) {
+            connectHomeBtn.setOnClickListener(v -> showHomeScreen());
+        }
+    }
+
+    private void setupFindPc() {
+        Button findPcBtn = findViewById(R.id.findPcBtn);
+        if (findPcBtn == null) return;
+
+        findPcBtn.setOnClickListener(v -> {
+            findPcBtn.setEnabled(false);
+            findPcBtn.setText("Searching...");
+
+            PcDiscovery.search(2000, foundList -> runOnUiThread(() -> {
+                findPcBtn.setEnabled(true);
+                findPcBtn.setText("🔍 Find PC");
+
+                if (foundList.isEmpty()) {
+                    android.widget.Toast.makeText(this,
+                            "No PC found. Make sure gamepad_receiver.py is running, then try again — or enter the IP manually.",
+                            android.widget.Toast.LENGTH_LONG).show();
+                } else if (foundList.size() == 1) {
+                    ipInput.setText(foundList.get(0).ip);
+                    android.widget.Toast.makeText(this,
+                            "Found " + foundList.get(0).name, android.widget.Toast.LENGTH_SHORT).show();
+                } else {
+                    CharSequence[] labels = new CharSequence[foundList.size()];
+                    for (int i = 0; i < foundList.size(); i++) {
+                        labels[i] = foundList.get(i).name + " (" + foundList.get(i).ip + ")";
+                    }
+                    new AlertDialog.Builder(this)
+                            .setTitle("Choose a PC")
+                            .setItems(labels, (dialog, which) ->
+                                    ipInput.setText(foundList.get(which).ip))
+                            .show();
+                }
+            }));
+        });
     }
 
     // ----------------------------------------------------------------
@@ -434,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
         state.reset();
         editMode = false;
         statusText.setText("Disconnected");
-        showConnectScreen();
+        showHomeScreen();
     }
 
     // ----------------------------------------------------------------
