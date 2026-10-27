@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private View homeScreen;
     private View connectScreen;
     private View gamepadRoot;
+    private RacingController racing;
     private TextView statusText;
     private EditText ipInput;
 
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         setupControls();
         setupHomeScreen();
         setupFindPc();
+        racing = new RacingController(this, state, findViewById(R.id.racingRoot));
         showHomeScreen();
 
         if (connectBtn != null) {
@@ -334,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showHomeScreen() {
+        if (racing != null) racing.hide();
         if (homeScreen    != null) homeScreen.setVisibility(View.VISIBLE);
         if (connectScreen != null) connectScreen.setVisibility(View.GONE);
         // INVISIBLE, not GONE — GONE views get 0 width/height, which breaks
@@ -342,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showConnectScreen() {
+        if (racing != null) racing.hide();
         if (homeScreen    != null) homeScreen.setVisibility(View.GONE);
         if (connectScreen != null) connectScreen.setVisibility(View.VISIBLE);
         if (gamepadRoot   != null) gamepadRoot.setVisibility(View.INVISIBLE);
@@ -426,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Gamepad Menu")
                 .setItems(
-                        new CharSequence[]{editLabel, "Reset layout", "Settings", "Disconnect", "Cancel"},
+                        new CharSequence[]{editLabel, "Reset layout", "Settings", "Racing mode", "Disconnect", "Cancel"},
                         (dialog, which) -> {
                             switch (which) {
                                 case 0:
@@ -440,6 +444,11 @@ public class MainActivity extends AppCompatActivity {
                                     showSettingsMenu();
                                     break;
                                 case 3:
+                                    editMode = false;
+                                    updateEditMode();
+                                    if (racing != null) racing.show();
+                                    break;
+                                case 4:
                                     disconnect();
                                     break;
                                 default:
