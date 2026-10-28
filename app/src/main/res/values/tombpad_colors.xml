@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TombPad "Pocket Arcade Retro" palette. Change here to restyle the home screen. -->
+<resources>
+    <color name="tp_bg">#F6EEDF</color>
+    <color name="tp_surface">#FFF6E9</color>
+    <color name="tp_edge">#D3C5AB</color>
+    <color name="tp_primary">#8B95FF</color>
+    <color name="tp_primary_dark">#4B53BD</color>
+    <color name="tp_primary_edge">#2F3590</color>
+    <color name="tp_secondary">#FF5C62</color>
+    <color name="tp_secondary_dark">#C23A40</color>
+    <color name="tp_tertiary">#CBE4DE</color>
+    <color name="tp_tertiary_dark">#3E5F5A</color>
+    <color name="tp_ink">#2B2A33</color>
+    <color name="tp_ink_dim">#6E6A5E</color>
+</resources>

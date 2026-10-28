@@ -2,119 +2,258 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#0A0D12"
     android:keepScreenOn="true">
 
-    <!-- ===================== GAMEPAD SCREEN (hidden until connected) ===================== -->
+    <!-- ===================== CONTROLLER SCREEN (Landscape Handheld Viewport) ===================== -->
     <FrameLayout
         android:id="@+id/gamepadRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/chassis_frame_bg"
         android:visibility="invisible">
 
-        <!-- LEFT STICK — large comfortable joystick, left-mid area -->
+        <!-- 4 Corner Chassis Screw Rivets (Retro Industrial Hardware Aesthetic) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="⊘"
+            android:textColor="#BDB2A2"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="⊘"
+            android:textColor="#BDB2A2"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="⊘"
+            android:textColor="#BDB2A2"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="⊘"
+            android:textColor="#BDB2A2"
+            android:textSize="11sp" />
+
+        <!-- ===================== CONTROLLER TOP BAR ===================== -->
+        <LinearLayout
+            android:id="@+id/controllerTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_gravity="top"
+            android:elevation="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
+
+            <!-- Active Status Pill -->
+            <TextView
+                android:id="@+id/controllerStatusPill"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:background="@drawable/tp_pill_bg"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:letterSpacing="0.06"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="● CONTROLLER ACTIVE"
+                android:textColor="#34C759"
+                android:textSize="9.5sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Gyro Toggle Button (Operates independently of Mode Switching) -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/gyroToggleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/gyro_btn_bg"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.04"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="⟲ GYRO: OFF"
+                android:textAllCaps="false"
+                android:textColor="#1F1B14"
+                android:textSize="10sp" />
+
+            <!-- Top Menu Button ≡ (Slide-Out Menu Trigger) -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menuBtn"
+                android:layout_width="38dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/menu_btn_bg"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="≡"
+                android:textColor="#1F1B14"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Telemetry Chip: Latency -->
+            <TextView
+                android:id="@+id/latencyChip"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="⚡ &lt;1.2ms"
+                android:textColor="#1F1B14"
+                android:textSize="9sp" />
+
+            <!-- Telemetry Chip: Battery -->
+            <TextView
+                android:id="@+id/controllerBatteryText"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="🔋 100%"
+                android:textColor="#1F1B14"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <!-- ===================== TOP-CENTER CUSTOMIZATION DONE BUTTON ===================== -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/customizationDoneBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/tp_btn_primary"
+            android:elevation="12dp"
+            android:fontFamily="sans-serif-black"
+            android:letterSpacing="0.04"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="✓ DONE"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:visibility="gone" />
+
+        <!-- ===================== ARCADE CONTROLLER CONTROLS ===================== -->
+        <!-- LEFT STICK — retro analog joystick -->
         <com.tombstone.wirelessgamepad.JoystickView
             android:id="@+id/leftStick"
             android:layout_width="160dp"
             android:layout_height="160dp" />
 
-        <!-- RIGHT STICK — large comfortable joystick, right-mid area -->
+        <!-- RIGHT STICK — retro analog joystick -->
         <com.tombstone.wirelessgamepad.JoystickView
             android:id="@+id/rightStick"
             android:layout_width="160dp"
             android:layout_height="160dp" />
 
-        <!-- LT — tall trigger slider, top-left -->
+        <!-- LT (L2) — tall tactile trigger slider -->
         <com.tombstone.wirelessgamepad.TriggerSliderView
             android:id="@+id/ltSlider"
-            android:layout_width="72dp"
+            android:layout_width="68dp"
             android:layout_height="56dp" />
 
-        <!-- RT — tall trigger slider, top-right -->
+        <!-- RT (R2) — tall tactile trigger slider -->
         <com.tombstone.wirelessgamepad.TriggerSliderView
             android:id="@+id/rtSlider"
-            android:layout_width="72dp"
+            android:layout_width="68dp"
             android:layout_height="56dp" />
 
-        <!-- LB — shoulder button, top-left below LT -->
+        <!-- LB (L1) — tactile shoulder button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/lbBtn"
-            android:layout_width="88dp"
-            android:layout_height="40dp"
-            android:background="@drawable/shoulder_button_bg"
+            android:layout_width="80dp"
+            android:layout_height="42dp"
+            android:background="@drawable/shoulder_btn_tactile"
             android:letterSpacing="0.05"
-            android:text="LB"
+            android:text="L1"
             android:textAllCaps="false"
-            android:textColor="#CCCCCC"
+            android:textColor="#4B53BB"
             android:textSize="13sp"
             android:textStyle="bold" />
 
-        <!-- RB — shoulder button, top-right below RT -->
+        <!-- RB (R1) — tactile shoulder button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/rbBtn"
-            android:layout_width="88dp"
-            android:layout_height="40dp"
-            android:background="@drawable/shoulder_button_bg"
+            android:layout_width="80dp"
+            android:layout_height="42dp"
+            android:background="@drawable/shoulder_btn_tactile"
             android:letterSpacing="0.05"
-            android:text="RB"
+            android:text="R1"
             android:textAllCaps="false"
-            android:textColor="#CCCCCC"
+            android:textColor="#4B53BB"
             android:textSize="13sp"
             android:textStyle="bold" />
 
-        <!-- L3 — small round button, bottom-left -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/l3Btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_button_bg"
-            android:text="🏃"
-            android:textSize="18sp" />
-
-        <!-- R3 — small round button, bottom-right -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/r3Btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_button_bg"
-            android:text="🎯"
-            android:textSize="18sp" />
-
-        <!-- SELECT — small pill, top-center-left -->
+        <!-- SELECT — pill, top-center-left -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backBtn"
             android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:background="@drawable/pill_button_bg"
+            android:layout_height="28dp"
+            android:background="@drawable/tp_pill_bg"
+            android:fontFamily="sans-serif-black"
             android:letterSpacing="0.05"
             android:text="SELECT"
             android:textAllCaps="false"
-            android:textColor="#AAAAAA"
-            android:textSize="9sp" />
+            android:textColor="#1F1B14"
+            android:textSize="8.5sp" />
 
-        <!-- HOME — circle button, top-center -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/homeBtn"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/circle_button_bg"
-            android:text="⌂"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
-
-        <!-- START — small pill, top-center-right -->
+        <!-- START — pill, top-center-right -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/startBtn"
             android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:background="@drawable/pill_button_bg"
+            android:layout_height="28dp"
+            android:background="@drawable/tp_pill_bg"
+            android:fontFamily="sans-serif-black"
             android:letterSpacing="0.05"
             android:text="START"
             android:textAllCaps="false"
-            android:textColor="#AAAAAA"
-            android:textSize="9sp" />
+            android:textColor="#1F1B14"
+            android:textSize="8.5sp" />
 
-        <!-- D-PAD group — cross arrangement of 4 buttons -->
+        <!-- D-PAD group — cross arrangement of 4 tactile buttons -->
         <RelativeLayout
             android:id="@+id/dpad"
             android:layout_width="156dp"
@@ -126,9 +265,9 @@
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/pill_button_bg"
+                android:background="@drawable/dpad_btn_bg"
                 android:text="▲"
-                android:textColor="#CCCCCC"
+                android:textColor="#6E685C"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -137,9 +276,9 @@
                 android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/pill_button_bg"
+                android:background="@drawable/dpad_btn_bg"
                 android:text="▼"
-                android:textColor="#CCCCCC"
+                android:textColor="#6E685C"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -148,9 +287,9 @@
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/pill_button_bg"
+                android:background="@drawable/dpad_btn_bg"
                 android:text="◀"
-                android:textColor="#CCCCCC"
+                android:textColor="#6E685C"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -159,412 +298,1827 @@
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/pill_button_bg"
+                android:background="@drawable/dpad_btn_bg"
                 android:text="▶"
-                android:textColor="#CCCCCC"
+                android:textColor="#6E685C"
                 android:textSize="16sp" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/tp_logo_box" />
         </RelativeLayout>
 
-        <!-- ABXY group — diamond arrangement -->
+        <!-- ABXY group — diamond arrangement with Retro Arcade glyphs (△, ◯, ✕, □) -->
         <RelativeLayout
             android:id="@+id/abxy"
             android:layout_width="156dp"
             android:layout_height="156dp">
 
-            <!-- Y — top center -->
+            <!-- Y / △ — top center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnY"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/btn_y_bg"
-                android:text="Y"
-                android:textColor="#FFC107"
-                android:textSize="15sp"
+                android:background="@drawable/arcade_btn_triangle"
+                android:text="△"
+                android:textColor="#4C635E"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- A — bottom center -->
+            <!-- A / ✕ — bottom center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnA"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/btn_a_bg"
-                android:text="A"
-                android:textColor="#4CAF50"
-                android:textSize="15sp"
+                android:background="@drawable/arcade_btn_cross"
+                android:text="✕"
+                android:textColor="#4B53BB"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- X — left center -->
+            <!-- X / □ — left center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnX"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_x_bg"
-                android:text="X"
-                android:textColor="#2196F3"
-                android:textSize="15sp"
+                android:background="@drawable/arcade_btn_square"
+                android:text="□"
+                android:textColor="#8B5CF6"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- B — right center -->
+            <!-- B / ◯ — right center -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnB"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_b_bg"
-                android:text="B"
-                android:textColor="#F44336"
-                android:textSize="15sp"
+                android:background="@drawable/arcade_btn_circle"
+                android:text="◯"
+                android:textColor="#FF5E62"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
-
-        <!-- ===================== RACING MODE (covers the gamepad controls; hidden by default) ===================== -->
+        <!-- ===================== RACING MODE VIEWPORT (wheel.png & gyro.png) ===================== -->
         <FrameLayout
             android:id="@+id/racingRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/racing_bg"
-            android:clickable="true"
-            android:focusable="true"
+            android:layout_marginTop="38dp"
             android:visibility="gone">
 
-            <!-- Top bar: back, mode, gear down / up, recenter, options -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="top"
-                android:background="@color/racing_surface"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingBackBtn"
-                    android:layout_width="44dp"
-                    android:layout_height="40dp"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="←" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingModeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="Mode: Wheel" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingGearDown"
-                    android:layout_width="104dp"
-                    android:layout_height="44dp"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="▼ Gear" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingGearUp"
-                    android:layout_width="104dp"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="10dp"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="▲ Gear" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingRecenterBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:visibility="gone"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="Center" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/racingSettingsBtn"
-                    android:layout_width="44dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:minWidth="0dp" android:minHeight="0dp" android:textAllCaps="false" android:background="@drawable/racing_btn_bg" android:textColor="@color/racing_text"
-                    android:text="⚙" />
-            </LinearLayout>
-
-            <!-- Layout 1: wheel on the left, brake + gas on the right -->
+            <!-- Integrated Cream Chassis Viewport (No harsh black panel) -->
             <FrameLayout
-                android:id="@+id/racingWheelLayout"
+                android:id="@+id/racingCockpit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="56dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp">
 
-                <com.tombstone.wirelessgamepad.SteeringWheelView
-                    android:id="@+id/racingWheel"
-                    android:layout_width="230dp"
-                    android:layout_height="230dp"
-                    android:layout_gravity="center_vertical|start"
-                    android:layout_marginStart="48dp" />
-
+                <!-- Top Telemetry Row inside HUD -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_gravity="top"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="14dp"
-                    android:paddingEnd="26dp"
                     android:paddingStart="8dp"
-                    android:paddingTop="14dp">
+                    android:paddingEnd="8dp">
 
-                    <com.tombstone.wirelessgamepad.PedalView
-                        android:id="@+id/wheelBrake"
-                        android:layout_width="90dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="14dp"
-                        android:layout_marginTop="70dp"
-                        android:contentDescription="Brake pedal" />
-
-                    <com.tombstone.wirelessgamepad.PedalView
-                        android:id="@+id/wheelGas"
-                        android:layout_width="120dp"
-                        android:layout_height="match_parent"
-                        android:contentDescription="Gas pedal" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <!-- Layout 2: tilt steering, big brake on the left, big gas on the right -->
-            <LinearLayout
-                android:id="@+id/racingTiltLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
-                android:orientation="horizontal"
-                android:paddingBottom="14dp"
-                android:paddingEnd="26dp"
-                android:paddingStart="26dp"
-                android:paddingTop="14dp"
-                android:visibility="gone">
-
-                <com.tombstone.wirelessgamepad.PedalView
-                    android:id="@+id/tiltBrake"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:contentDescription="Brake pedal" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.3"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingStart="18dp"
-                    android:paddingEnd="18dp">
-
+                    <!-- STEERING AXIS readout pill -->
                     <TextView
+                        android:id="@+id/racingSteerAxisText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tilt to steer"
-                        android:textColor="@color/racing_text"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="24dp"
+                        android:background="@drawable/tp_pill_bg"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:letterSpacing="0.04"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="STEERING AXIS: 0.0° CENTER"
+                        android:textColor="#1F1B14"
+                        android:textSize="9.5sp" />
 
+                    <!-- Live Steering Spirit Bar -->
                     <com.tombstone.wirelessgamepad.SteerBarView
                         android:id="@+id/racingSteerBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="14dp" />
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_weight="1" />
+
+                    <!-- Calibrate Button (Visible only on Gyro screen) -->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/racingCalibrateBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:background="@drawable/tp_pill_bg"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.06"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="🎯 CALIBRATE"
+                        android:textAllCaps="false"
+                        android:textColor="#1F1B14"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <!-- Free-form stage where wheel, transmission box, pedals are positioned -->
+                <FrameLayout
+                    android:id="@+id/racingStage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="32dp" />
+            </FrameLayout>
+        </FrameLayout>
+
+        <!-- ===================== EDIT MODE FLOATING BANNER ===================== -->
+        <LinearLayout
+            android:id="@+id/editModeBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/menu_btn_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="✎ CUSTOMIZATION — DRAG CONTROLS TO REPOSITION"
+                android:textColor="#1F1B14"
+                android:textSize="11sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/doneEditBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="14dp"
+                android:background="@drawable/tp_btn_primary"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="✓ DONE"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- ===================== SLIDE-OUT MENU DRAWER (slid-window.png) ===================== -->
+        <!-- Scrim Backdrop -->
+        <View
+            android:id="@+id/drawerScrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:clickable="true"
+            android:elevation="40dp"
+            android:focusable="true"
+            android:visibility="gone" />
+
+        <!-- Drawer Overlay -->
+        <LinearLayout
+            android:id="@+id/slideMenuDrawer"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/drawer_panel_bg"
+            android:clickable="true"
+            android:elevation="50dp"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible">
+
+            <!-- Drawer Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/tp_logo_box">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_tp_gamepad" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Hold the phone like a wheel.\nTap Center to set your straight-ahead position."
-                        android:textColor="@color/racing_text_dim"
-                        android:textSize="12sp" />
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.04"
+                        android:text="QUICK MENU"
+                        android:textColor="#1F1B14"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/drawerSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06"
+                        android:text="POCKETPAD DX // SLOT-01"
+                        android:textColor="#767065"
+                        android:textSize="8sp" />
                 </LinearLayout>
 
-                <com.tombstone.wirelessgamepad.PedalView
-                    android:id="@+id/tiltGas"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:contentDescription="Gas pedal" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/drawerCloseBtn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/menu_btn_bg"
+                    android:gravity="center"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="✕"
+                    android:textColor="#1F1B14"
+                    android:textSize="13sp" />
             </LinearLayout>
-        </FrameLayout>
+
+            <!-- Scrollable Options Cards -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp">
+
+                    <!-- Card 1: Customization -->
+                    <FrameLayout
+                        android:id="@+id/drawerCustomizationCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="62dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/drawer_card_bg"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="4dp">
+
+                            <FrameLayout
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:background="@drawable/tp_icon_box_light">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_tp_tune" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:letterSpacing="0.03"
+                                        android:text="Customization"
+                                        android:textColor="#1F1B14"
+                                        android:textSize="13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="6dp"
+                                        android:background="@drawable/tp_chip_bg"
+                                        android:fontFamily="sans-serif-black"
+                                        android:paddingStart="5dp"
+                                        android:paddingEnd="5dp"
+                                        android:text="LAYOUT #2"
+                                        android:textColor="#1F1B14"
+                                        android:textSize="7.5sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="Button Layout, Pedal Travel &amp; Sensitivity"
+                                    android:textColor="#767065"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#BDB2A2"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Card 2: Setting -->
+                    <FrameLayout
+                        android:id="@+id/drawerSettingCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="62dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/drawer_card_bg"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="4dp">
+
+                            <FrameLayout
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:background="@drawable/tp_icon_box_mint">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_tp_tune" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:letterSpacing="0.03"
+                                        android:text="Setting"
+                                        android:textColor="#1F1B14"
+                                        android:textSize="13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="6dp"
+                                        android:background="@drawable/tp_chip_bg"
+                                        android:fontFamily="sans-serif-black"
+                                        android:paddingStart="5dp"
+                                        android:paddingEnd="5dp"
+                                        android:text="CALIBRATED"
+                                        android:textColor="#264653"
+                                        android:textSize="7.5sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="Haptics, Latency &amp; Gyro Calibration"
+                                    android:textColor="#767065"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#BDB2A2"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Card 3: Controller Mode Switch -->
+                    <FrameLayout
+                        android:id="@+id/drawerModeCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/drawer_card_bg"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="12dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/tp_logo_box">
+                                    <ImageView
+                                        android:id="@+id/drawerModeIcon"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_tp_gamepad" />
+                                </FrameLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/drawerModeTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:letterSpacing="0.03"
+                                        android:text="Racing Mode"
+                                        android:textColor="#1F1B14"
+                                        android:textSize="13sp" />
+
+                                    <TextView
+                                        android:id="@+id/drawerModeSub"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="1dp"
+                                        android:text="Steering &amp; Transmission System"
+                                        android:textColor="#767065"
+                                        android:textSize="9sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Mode Action Pill Button -->
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/drawerModeSwitchBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="34dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/tp_btn_primary"
+                                android:fontFamily="sans-serif-black"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:text="🏎 SWITCH TO RACING MODE"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10.5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:text="HAPTIC FEEDBACK: HEAVY  •  ARCADE CURVE: EXP-3"
+                                android:textColor="#767065"
+                                android:textSize="7.5sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Card 4: Exit Controller (Halts session and returns to Home) -->
+                    <FrameLayout
+                        android:id="@+id/drawerExitCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/drawer_exit_bg"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="4dp">
+
+                            <FrameLayout
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/tp_icon_box_mint">
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_tp_power"
+                                    android:tint="@color/tp_secondary_dark" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:letterSpacing="0.04"
+                                        android:text="Exit Controller"
+                                        android:textColor="#FFFFFF"
+                                        android:textSize="13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="6dp"
+                                        android:background="@drawable/tp_badge_ready"
+                                        android:fontFamily="sans-serif-black"
+                                        android:paddingStart="5dp"
+                                        android:paddingEnd="5dp"
+                                        android:text="HALT"
+                                        android:textColor="#FFFFFF"
+                                        android:textSize="7.5sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="Disconnect Gamepad &amp; Return to Lobby"
+                                    android:textColor="#FFE5E5"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="→]"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Bottom Indicator Dots (••••••) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        android:letterSpacing="0.3"
+                        android:text="••••••"
+                        android:textColor="#C7BBAA"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
 
     </FrameLayout>
 
-    <!-- ===================== HOME SCREEN (the real first screen the app opens on) ===================== -->
+    <!-- ===================== HOME SCREEN (TombPad, portrait) ===================== -->
     <LinearLayout
         android:id="@+id/homeScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp">
+        android:background="@color/tp_bg"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="VGamepad"
-            android:textColor="#FFFFFF"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+        <!-- tri-colour strip -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:orientation="horizontal">
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="4" android:background="@color/tp_primary" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="2" android:background="@color/tp_surface" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="3" android:background="@color/tp_secondary" />
+        </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/homeConnectBtn"
-            android:layout_width="220dp"
-            android:layout_height="52dp"
-            android:layout_marginBottom="14dp"
-            android:background="@drawable/pill_button_bg"
-            android:text="Connect"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+        <!-- header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/homeGamepadBtn"
-            android:layout_width="220dp"
-            android:layout_height="52dp"
-            android:layout_marginBottom="14dp"
-            android:background="@drawable/pill_button_bg"
-            android:text="Gamepad"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+            <FrameLayout
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/tp_logo_box">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_tp_gamepad" />
+            </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/homeSettingsBtn"
-            android:layout_width="220dp"
-            android:layout_height="52dp"
-            android:background="@drawable/pill_button_bg"
-            android:text="Settings"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.04"
+                        android:text="TOMBPAD"
+                        android:textColor="@color/tp_ink"
+                        android:textSize="21sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/tp_badge_dx"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:text="DX"
+                        android:textColor="@color/tp_primary_dark"
+                        android:textSize="9sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.08"
+                    android:text="HANDHELD LINK 16-BIT"
+                    android:textColor="@color/tp_ink_dim"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.08"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="PWR"
+                android:textColor="@color/tp_ink"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/homeBatteryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-black"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="100%"
+                android:textColor="@color/tp_ink"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <!-- body (scrolls on very small screens) -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="18dp">
+
+                <TextView
+                    android:id="@+id/homeStatusPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/tp_pill_bg"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.06"
+                    android:paddingStart="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="4dp"
+                    android:text="READY TO PLAY // SLOT 01"
+                    android:textColor="@color/tp_ink"
+                    android:textSize="10sp" />
+
+                <!-- Console illustration -->
+                <com.tombstone.wirelessgamepad.TombPadConsoleView
+                    android:id="@+id/homeConsole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- CONNECT GAMEPAD -->
+                <FrameLayout
+                    android:id="@+id/homeConnectBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="88dp"
+                    android:background="@drawable/tp_btn_primary"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="6dp">
+
+                        <FrameLayout
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/tp_icon_box_light">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_tp_bluetooth" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.04"
+                                android:text="CONNECT\nGAMEPAD"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp" />
+                            <TextView
+                                android:id="@+id/homeConnectSub"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Search and link wireless controller"
+                                android:textColor="#E3E5FF"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:background="@drawable/tp_icon_box_light">
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_tp_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/homeReadyBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="62dp"
+                        android:background="@drawable/tp_badge_ready"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="6dp"
+                        android:paddingTop="1dp"
+                        android:paddingEnd="6dp"
+                        android:paddingBottom="1dp"
+                        android:text="READY"
+                        android:textColor="#FFFFFF"
+                        android:textSize="8sp" />
+                </FrameLayout>
+
+                <!-- CONTROLLER SETTINGS -->
+                <FrameLayout
+                    android:id="@+id/homeSettingsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="88dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/tp_btn_card"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="6dp">
+
+                        <FrameLayout
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/tp_icon_box_mint">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_tp_tune"
+                                android:tint="@color/tp_tertiary_dark" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.04"
+                                android:text="CONTROLLER SETTINGS"
+                                android:textColor="@color/tp_ink"
+                                android:textSize="13sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Button mapping, stick curves &amp; rumble feel"
+                                android:textColor="@color/tp_secondary_dark"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_tp_tune"
+                            android:tint="@color/tp_ink_dim" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- EXIT SESSION -->
+                <FrameLayout
+                    android:id="@+id/homeExitBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/tp_btn_exit"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp">
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_tp_power"
+                            android:tint="@color/tp_secondary_dark" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.06"
+                            android:text="EXIT SESSION"
+                            android:textColor="@color/tp_secondary_dark"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
-    <!-- ===================== CONNECT SCREEN ===================== -->
+    <!-- ===================== CONNECT SCREEN (Connection.png, portrait) ===================== -->
     <LinearLayout
         android:id="@+id/connectScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
-        android:orientation="vertical">
+        android:background="@color/tp_bg"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <!-- Simple top bar so the app has real chrome, like any other app -->
+        <!-- Tri-colour strip -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/connectHomeBtn"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/circle_button_bg"
-                android:text="←"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Wireless Gamepad"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/settingsBtn"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:background="@drawable/circle_button_bg"
-                android:text="⚙"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+            android:layout_height="4dp"
+            android:orientation="horizontal">
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="4" android:background="@color/tp_primary" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="2" android:background="@color/tp_surface" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="3" android:background="@color/tp_secondary" />
         </LinearLayout>
 
-        <!-- Centered connect form -->
+        <!-- Header -->
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/tp_logo_box">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_tp_gamepad" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.04"
+                        android:text="RETROPAD"
+                        android:textColor="@color/tp_ink"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/tp_badge_dx"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:text="DX"
+                        android:textColor="@color/tp_primary_dark"
+                        android:textSize="9sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.08"
+                    android:text="HANDHELD LINK 16-BIT"
+                    android:textColor="@color/tp_ink_dim"
+                    android:textSize="7.5sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.08"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="PWR"
+                android:textColor="@color/tp_ink"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/connectBatteryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/tp_chip_bg"
+                android:fontFamily="sans-serif-black"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="100%"
+                android:textColor="@color/tp_ink"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <!-- Scrollable Content -->
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/findPcBtn"
-                android:layout_width="220dp"
-                android:layout_height="48dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/pill_button_bg"
-                android:text="🔍 Find PC"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:id="@+id/orDivider"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="or enter IP manually"
-                android:textColor="#888888"
-                android:textSize="12sp" />
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
 
-            <EditText
-                android:id="@+id/ipInput"
-                android:layout_width="260dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="PC IP e.g. 192.168.137.1"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#888888" />
+                <!-- Navigation Bar Card (< BACK | WI-FI LINK) -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/tp_btn_card"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/connectBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/pill_button_bg"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:text="Connect"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Disconnected"
-                android:textColor="#FF5555" />
-        </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/connectBackBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/tp_preset_pill_bg"
+                            android:fontFamily="sans-serif-black"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="← BACK"
+                            android:textAllCaps="false"
+                            android:textColor="#1F1B14"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.05"
+                                android:text="WI-FI LINK"
+                                android:textColor="#4B53BD"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:letterSpacing="0.04"
+                                android:text="CH-01 • 2.4GHz"
+                                android:textColor="#767065"
+                                android:textSize="8sp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/tp_icon_box_mint">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_tp_bluetooth"
+                                android:tint="@color/tp_secondary_dark" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- CARD 1: RF BEACON (Dark Cockpit Telemetry) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/tp_card_beacon"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="●"
+                            android:textColor="#FF5E62"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.06"
+                            android:text="RF BEACON"
+                            android:textColor="#E8ECF2"
+                            android:textSize="11.5sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:letterSpacing="0.04"
+                            android:text="NET: 192.168.1.0/24"
+                            android:textColor="#7A93A0"
+                            android:textSize="8.5sp" />
+                    </LinearLayout>
+
+                    <!-- Inner telemetry box -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/tp_card_inner_beacon"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:letterSpacing="0.04"
+                                android:text="((•)) BROADCASTING UDP"
+                                android:textColor="#B0C8D6"
+                                android:textSize="8.5sp" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:letterSpacing="0.04"
+                                android:text="SCANNING..."
+                                android:textColor="#B0C8D6"
+                                android:textSize="8.5sp" />
+                        </LinearLayout>
+
+                        <!-- 3 Metric Pills -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <!-- Metric 1: PORT -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="4dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/tp_preset_pill_bg"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:letterSpacing="0.04"
+                                    android:text="PORT"
+                                    android:textColor="#767065"
+                                    android:textSize="7sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="5000"
+                                    android:textColor="#4B53BD"
+                                    android:textSize="11.5sp" />
+                            </LinearLayout>
+
+                            <!-- Metric 2: LATENCY -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="4dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/tp_preset_pill_bg"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:letterSpacing="0.04"
+                                    android:text="LATENCY"
+                                    android:textColor="#767065"
+                                    android:textSize="7sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="&lt; 1.2ms"
+                                    android:textColor="#267D4E"
+                                    android:textSize="11.5sp" />
+                            </LinearLayout>
+
+                            <!-- Metric 3: PACKETS -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/tp_preset_pill_bg"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:letterSpacing="0.04"
+                                    android:text="PACKETS"
+                                    android:textColor="#767065"
+                                    android:textSize="7sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="0% LOSS"
+                                    android:textColor="#FF5E62"
+                                    android:textSize="11.5sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.04"
+                            android:text="Listening on wlan0 for RetroPad hosts"
+                            android:textColor="#7A93A0"
+                            android:textSize="8sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- CARD 2: DIRECT IP LINK -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/tp_btn_card"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="■"
+                            android:textColor="#4B53BD"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="DIRECT IP LINK"
+                            android:textColor="#1F1B14"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="IPv4"
+                            android:textColor="#4B53BD"
+                            android:textSize="8.5sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Enter receiver or emulator IP address displayed on your screen:"
+                        android:textColor="#767065"
+                        android:textSize="9.5sp" />
+
+                    <!-- IP input field -->
+                    <EditText
+                        android:id="@+id/ipInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/tp_input_bg"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:hint="192.168.1.100"
+                        android:imeOptions="actionDone"
+                        android:inputType="textUri"
+                        android:letterSpacing="0.06"
+                        android:maxLines="1"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="#1F1B14"
+                        android:textColorHint="#B3A898"
+                        android:textSize="15sp" />
+
+                    <!-- Quick IP Presets -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="PRESETS:"
+                            android:textColor="#767065"
+                            android:textSize="7.5sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/presetTvBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="6dp"
+                            android:background="@drawable/tp_preset_pill_bg"
+                            android:fontFamily="sans-serif-bold"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="7dp"
+                            android:paddingEnd="7dp"
+                            android:text="192.168.1.42 (TV)"
+                            android:textAllCaps="false"
+                            android:textColor="#1F1B14"
+                            android:textSize="8sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/presetLocalhostBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/tp_preset_pill_bg"
+                            android:fontFamily="sans-serif-bold"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="7dp"
+                            android:paddingEnd="7dp"
+                            android:text="127.0.0.1"
+                            android:textAllCaps="false"
+                            android:textColor="#1F1B14"
+                            android:textSize="8sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/presetPcRigBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/tp_preset_pill_bg"
+                            android:fontFamily="sans-serif-bold"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="7dp"
+                            android:paddingEnd="7dp"
+                            android:text="PC Rig (.1)"
+                            android:textAllCaps="false"
+                            android:textColor="#1F1B14"
+                            android:textSize="8sp" />
+                    </LinearLayout>
+
+                    <!-- Connect Action Button -->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/connectBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/tp_btn_primary"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.04"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="🔌 CONNECT VIA IP →"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <!-- Status Text -->
+                    <TextView
+                        android:id="@+id/statusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Ready to connect"
+                        android:textColor="#767065"
+                        android:textSize="9.5sp" />
+                </LinearLayout>
+
+                <!-- CARD 3: DISCOVERED BEACONS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/tp_btn_card"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="◎"
+                            android:textColor="#FF5E62"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="DISCOVERED BEACONS"
+                            android:textColor="#1F1B14"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/findPcBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="26dp"
+                            android:background="@drawable/tp_preset_pill_bg"
+                            android:fontFamily="sans-serif-black"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="⟳ RESCAN"
+                            android:textAllCaps="false"
+                            android:textColor="#1F1B14"
+                            android:textSize="9.5sp" />
+                    </LinearLayout>
+
+                    <!-- Beacons list container -->
+                    <LinearLayout
+                        android:id="@+id/discoveredBeaconsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <!-- Beacon item 1 -->
+                        <FrameLayout
+                            android:id="@+id/beaconItem1"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/tp_beacon_item_bg"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:background="@drawable/tp_icon_box_light">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="🖥"
+                                        android:textSize="13sp" />
+                                </FrameLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="sans-serif-black"
+                                            android:text="RETROPAD-STATION"
+                                            android:textColor="#1F1B14"
+                                            android:textSize="11sp" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="4dp"
+                                            android:background="@drawable/tp_chip_bg"
+                                            android:fontFamily="sans-serif-black"
+                                            android:paddingStart="4dp"
+                                            android:paddingEnd="4dp"
+                                            android:text="FAST"
+                                            android:textColor="#1F1B14"
+                                            android:textSize="6.5sp" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="192.168.1.44 • Signal 98%"
+                                        android:textColor="#767065"
+                                        android:textSize="8.5sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/beaconLinkBtn1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="26dp"
+                                    android:background="@drawable/tp_badge_ready"
+                                    android:fontFamily="sans-serif-black"
+                                    android:minWidth="0dp"
+                                    android:minHeight="0dp"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:text="LINK"
+                                    android:textAllCaps="false"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="9.5sp" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!-- Beacon item 2 -->
+                        <FrameLayout
+                            android:id="@+id/beaconItem2"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/tp_beacon_item_bg"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:background="@drawable/tp_icon_box_mint">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="✛"
+                                        android:textColor="@color/tp_secondary_dark"
+                                        android:textSize="13sp" />
+                                </FrameLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="sans-serif-black"
+                                            android:text="RETROLINK DONGLE"
+                                            android:textColor="#1F1B14"
+                                            android:textSize="11sp" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="4dp"
+                                            android:background="@drawable/tp_chip_bg"
+                                            android:fontFamily="sans-serif-black"
+                                            android:paddingStart="4dp"
+                                            android:paddingEnd="4dp"
+                                            android:text="USB-RF"
+                                            android:textColor="#1F1B14"
+                                            android:textSize="6.5sp" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="192.168.1.89 • Signal 84%"
+                                        android:textColor="#767065"
+                                        android:textSize="8.5sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/beaconLinkBtn2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="26dp"
+                                    android:background="@drawable/tp_badge_dx"
+                                    android:fontFamily="sans-serif-black"
+                                    android:minWidth="0dp"
+                                    android:minHeight="0dp"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:text="LINK"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/tp_primary_dark"
+                                    android:textSize="9.5sp" />
+                            </LinearLayout>
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Bottom Info Note -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/tp_preset_pill_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ⓘ"
+                        android:textColor="#4B53BD"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Make sure handheld host and client phone share the same 2.4GHz / 5GHz wireless access point."
+                        android:textColor="#767065"
+                        android:textSize="8.5sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </FrameLayout>

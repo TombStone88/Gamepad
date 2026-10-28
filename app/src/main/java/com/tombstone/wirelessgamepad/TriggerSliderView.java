@@ -2,15 +2,16 @@ package com.tombstone.wirelessgamepad;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * A vertical analog trigger. Drag anywhere on it: top = fully pressed (1.0),
- * bottom = released (0.0). Releasing touch snaps back to 0, like a real trigger.
+ * Vertical analog trigger styled to match the retro arcade aesthetic in on-screen.png:
+ * Tactile rounded diamond/capsule trigger with L2/R2 label, fill gauge, and pressure sensitivity.
  */
 public class TriggerSliderView extends View {
 
@@ -18,21 +19,18 @@ public class TriggerSliderView extends View {
         void onChange(float value);
     }
 
-    private Paint bgPaint;
-    private Paint fillPaint;
+    private final Paint shadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF rect = new RectF();
+
+    private float density;
     private float value = 0f;
     private Listener listener;
     private boolean hardMode = false;
-
-    /** True = act as a simple on/off button. False = pressure-sensitive drag. */
-    public void setHardMode(boolean hard) {
-        this.hardMode = hard;
-        if (value != 0f) {
-            value = 0f;
-            notifyListener();
-            invalidate();
-        }
-    }
+    private String label = "L2";
 
     public TriggerSliderView(Context context) {
         this(context, null);
@@ -44,25 +42,41 @@ public class TriggerSliderView extends View {
 
     public TriggerSliderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        density = context.getResources().getDisplayMetrics().density;
         init();
     }
 
-    private Paint borderPaint;
-
     private void init() {
-        bgPaint = new Paint();
-        bgPaint.setColor(Color.parseColor("#55202020"));
-        bgPaint.setAntiAlias(true);
+        shadowPaint.setColor(0xFFC7BBAA);
+        shadowPaint.setStyle(Paint.Style.FILL);
 
-        borderPaint = new Paint();
-        borderPaint.setColor(Color.parseColor("#55FFFFFF"));
+        bgPaint.setColor(0xFFFBF4E8);
+        bgPaint.setStyle(Paint.Style.FILL);
+
+        fillPaint.setColor(0xFF4B53BB);
+        fillPaint.setStyle(Paint.Style.FILL);
+
+        borderPaint.setColor(0xFFC7BBAA);
         borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(2.5f);
-        borderPaint.setAntiAlias(true);
+        borderPaint.setStrokeWidth(1.5f * density);
 
-        fillPaint = new Paint();
-        fillPaint.setColor(Color.parseColor("#BBFFFFFF"));
-        fillPaint.setAntiAlias(true);
+        textPaint.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setColor(0xFF1F1B14);
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+        invalidate();
+    }
+
+    public void setHardMode(boolean hard) {
+        this.hardMode = hard;
+        if (value != 0f) {
+            value = 0f;
+            notifyListener();
+            invalidate();
+        }
     }
 
     public void setListener(Listener l) {
@@ -74,13 +88,36 @@ public class TriggerSliderView extends View {
         super.onDraw(canvas);
         int w = getWidth();
         int h = getHeight();
-        float r = 20;
-        canvas.drawRoundRect(0, 0, w, h, r, r, bgPaint);
-        float fillTop = h * (1 - value);
-        if (value > 0) {
-            canvas.drawRoundRect(0, fillTop, w, h, r, r, fillPaint);
+        if (w <= 0 || h <= 0) return;
+
+        float r = 14f * density;
+        float shadowOffset = 3f * density;
+        float pressOffset = value > 0f ? 2f * density : 0f;
+
+        // Underside shadow
+        canvas.drawRoundRect(0, shadowOffset, w, h + shadowOffset, r, r, shadowPaint);
+
+        // Face
+        rect.set(0, pressOffset, w, h + pressOffset);
+        canvas.drawRoundRect(rect, r, r, bgPaint);
+
+        // Active fill
+        if (value > 0f) {
+            canvas.save();
+            canvas.clipRect(rect);
+            float fillTop = rect.bottom - (rect.height() * value);
+            fillPaint.setColor(0x444B53BB);
+            canvas.drawRect(rect.left, fillTop, rect.right, rect.bottom, fillPaint);
+            canvas.restore();
         }
-        canvas.drawRoundRect(1.25f, 1.25f, w - 1.25f, h - 1.25f, r, r, borderPaint);
+
+        // Border
+        canvas.drawRoundRect(rect, r, r, borderPaint);
+
+        // Label
+        textPaint.setTextSize(14f * density);
+        textPaint.setColor(value > 0.5f ? 0xFF4B53BB : 0xFF1F1B14);
+        canvas.drawText(label, w / 2f, rect.centerY() + 5f * density, textPaint);
     }
 
     @Override
@@ -88,6 +125,7 @@ public class TriggerSliderView extends View {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
+                if (getParent() != null) getParent().requestDisallowInterceptTouchEvent(true);
                 if (hardMode) {
                     value = 1f;
                 } else {

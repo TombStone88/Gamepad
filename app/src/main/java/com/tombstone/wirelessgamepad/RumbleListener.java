@@ -41,15 +41,20 @@ public class RumbleListener {
     public void start(Callback callback) {
 
         if (running) {
+            Log.d(TAG, "start() called but RumbleListener is already running.");
             return;
         }
 
         running = true;
+        Log.i(TAG, "Starting RumbleListener background thread for UDP port " + PORT + "...");
 
         Thread thread = new Thread(() -> {
 
             try {
+                closeSocket();
                 socket = new DatagramSocket(PORT);
+                socket.setReuseAddress(true);
+                Log.i(TAG, "RumbleListener successfully bound to UDP port " + PORT + " (local socket: " + socket.getLocalSocketAddress() + ")");
                 byte[] buf = new byte[64];
 
                 while (running) {
@@ -60,15 +65,20 @@ public class RumbleListener {
                         socket.receive(packet);
                     } catch (SocketException e) {
                         // Socket was closed by stop() — this is the normal shutdown path.
+                        Log.i(TAG, "RumbleListener socket closed: " + e.getMessage());
                         break;
                     }
 
+                    String senderIp = (packet.getAddress() != null) ? packet.getAddress().getHostAddress() : "unknown";
+                    int senderPort = packet.getPort();
                     String msg = new String(packet.getData(), 0, packet.getLength()).trim();
+                    Log.i(TAG, "Received UDP packet from " + senderIp + ":" + senderPort + " -> \"" + msg + "\" (bytes=" + packet.getLength() + ")");
+
                     String[] parts = msg.split(",");
 
                     if (parts.length != 3 || !parts[0].equals("VIBRATE")) {
                         // Malformed packet — discard and keep listening.
-                        Log.d(TAG, "Ignored malformed rumble packet: " + msg);
+                        Log.w(TAG, "Ignored malformed rumble packet from " + senderIp + ":" + senderPort + ": \"" + msg + "\"");
                         continue;
                     }
 
@@ -80,7 +90,7 @@ public class RumbleListener {
                         small = Integer.parseInt(parts[2].trim());
                     } catch (NumberFormatException e) {
                         // Values are not integers — discard this packet and keep listening.
-                        Log.d(TAG, "Ignored rumble packet with non-integer values: " + msg);
+                        Log.w(TAG, "Ignored rumble packet with non-integer values from " + senderIp + ":" + senderPort + ": \"" + msg + "\"");
                         continue;
                     }
 
@@ -88,17 +98,24 @@ public class RumbleListener {
                     large = Math.max(0, Math.min(255, large));
                     small = Math.max(0, Math.min(255, small));
 
+                    Log.i(TAG, "Valid vibration packet passed to handleRumble(): largeMotor=" + large + ", smallMotor=" + small + " (source: " + senderIp + ":" + senderPort + ")");
+
                     if (callback != null) {
-                        callback.onRumble(large, small);
+                        try {
+                            callback.onRumble(large, small);
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error executing rumble callback: " + e.getMessage(), e);
+                        }
                     }
                 }
 
             } catch (Exception e) {
                 // Unexpected error opening or using the socket.
-                Log.e(TAG, "Rumble listener error: " + e.getMessage());
+                Log.e(TAG, "RumbleListener socket error on port " + PORT + ": " + e.getMessage(), e);
             } finally {
                 closeSocket();
                 running = false;
+                Log.i(TAG, "RumbleListener stopped and port " + PORT + " released.");
             }
 
         }, "Gamepad-Rumble");
@@ -112,6 +129,7 @@ public class RumbleListener {
      * Closing the socket unblocks any in-progress {@code receive()} call.
      */
     public void stop() {
+        Log.i(TAG, "Stopping RumbleListener...");
         running = false;
         closeSocket();
     }

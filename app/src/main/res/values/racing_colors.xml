@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- All colors for the racing screens live here. Change this one file to restyle them. -->
 <resources>
-    <color name="racing_bg">#F3F5F8</color>
-    <color name="racing_surface">#FFFFFF</color>
-    <color name="racing_track">#DCE2EA</color>
-    <color name="racing_stroke">#C3CBD6</color>
-    <color name="racing_text">#1E2630</color>
-    <color name="racing_text_dim">#5B6675</color>
-    <color name="racing_gas">#2E9E5B</color>
-    <color name="racing_brake">#D64545</color>
+    <color name="racing_bg">#0A0D12</color>
+    <color name="racing_surface">#151A22</color>
+    <color name="racing_track">#1D232D</color>
+    <color name="racing_stroke">#3A4452</color>
+    <color name="racing_text">#E8ECF2</color>
+    <color name="racing_text_dim">#8D97A6</color>
+    <color name="racing_gas">#34C759</color>
+    <color name="racing_brake">#FF453A</color>
     <color name="racing_wheel">#37424F</color>
-    <color name="racing_accent">#2F6FED</color>
+    <color name="racing_accent">#FF6B1A</color>
 </resources>
