@@ -6,7 +6,7 @@
 
 📱 **[Download TombPad.apk (Android)](https://github.com/TombStone88/Gamepad/releases/latest/download/TombPad.apk)**
 &nbsp;&nbsp;|&nbsp;&nbsp;
-💻 **[Download PC App (Windows)](https://github.com/TombStone88/Gamepad/releases/latest/download/TombPad-PC-Setup.exe)**
+💻 **[Download PC App (Windows)](https://github.com/TombStone88/Gamepad/releases/latest/download/TombPad-Setup.exe)**
 
 All versions: [Releases page](https://github.com/TombStone88/Gamepad/releases)
 
