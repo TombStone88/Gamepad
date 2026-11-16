@@ -84,7 +84,7 @@ This project and its original source code, design, documentation, and assets are
 
 Unauthorized copying, modification, redistribution, or commercial use of the original work is not permitted without prior written permission, except where applicable third-party licenses provide otherwise.
 
-For permission or inquiries, contact the original developer through GitHub.
+For permission or inquiries, contact the original developer.
 
 ---
 
@@ -92,6 +92,11 @@ For permission or inquiries, contact the original developer through GitHub.
 
 **Developed by [Nirav Mahida](https://github.com/TombStone88)**
 
-[Repository](https://github.com/TombStone88/Gamepad) · [Releases](https://github.com/TombStone88/Gamepad/releases) · [Issues](https://github.com/TombStone88/Gamepad/issues)
+<a href="https://github.com/TombStone88">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub">
+</a>
+<a href="https://www.linkedin.com/in/nirav-mahida/">
+  <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn">
+</a>
 
 </div>
