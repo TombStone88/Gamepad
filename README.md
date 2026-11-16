@@ -56,23 +56,6 @@ It uses a local network to transmit controller inputs and supports rumble feedba
 
 > **Network:** Both devices must be on the same local network. Internet access is not required. Check Windows Firewall if the connection fails.
 
-## Project Structure
-
-```text
-Gamepad/
-├── app/                  # Android application
-├── gradle/               # Gradle wrapper configuration
-├── .idea/                # IDE project settings
-├── build.gradle.kts      # Root Gradle configuration
-├── gradle.properties     # Gradle properties
-├── gradlew               # Gradle wrapper (Unix)
-├── gradlew.bat           # Gradle wrapper (Windows)
-├── settings.gradle.kts   # Gradle project settings
-└── README.md             # Project documentation
-```
-
-The Windows PC application is distributed separately through GitHub Releases.
-
 ## Copyright & Ownership
 
 **Original Developer:** Nirav Mahida  
